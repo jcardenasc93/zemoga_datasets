@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 djongo = "*"
 django = "==3.0"
+dnspython = "*"
 
 [dev-packages]
 
