@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -34,12 +33,9 @@ else:
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.admin', 'django.contrib.auth',
+    'django.contrib.contenttypes', 'django.contrib.sessions',
+    'django.contrib.messages', 'django.contrib.staticfiles', 'datasets_app'
 ]
 
 MIDDLEWARE = [
@@ -72,54 +68,53 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'main.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': os.getenv('DB_NAME')
-    }
-}
+DATABASES = {'default': {'ENGINE': 'djongo', 'NAME': os.getenv('DB_NAME')}}
 # Set connection mongo according to environment variables
 DB_USER = os.getenv('DB_USER')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 if os.getenv('ATLAS_HOST'):
     # Atlas DB connection type
     # For more info check https://www.mongodb.com/cloud/atlas
-    client = {'host': f"mongodb+srv://{DB_USER}:{DB_PASSWORD}@{os.getenv('ATLAS_HOST')}"}
+    client = {
+        'host':
+            f"mongodb+srv://{DB_USER}:{DB_PASSWORD}@{os.getenv('ATLAS_HOST')}/{os.getenv('DB_NAME')}"
+    }
 else:
     # Custom mongo instance/cluster connection
     client = {
-            'host': os.getenv('DB_HOST'),
-            'port': os.getend('DB_PORT'),
-            'username': DB_USER,
-            'password': DB_PASSWORD,
-            'authSource': os.getenv('DB_NAME'),
-            'authMechanism': 'SCRAM-SHA-1'
-            }
+        'host': os.getenv('DB_HOST'),
+        'port': os.getenv('DB_PORT'),
+        'username': DB_USER,
+        'password': DB_PASSWORD,
+        'authSource': os.getenv('DB_NAME'),
+        'authMechanism': 'SCRAM-SHA-1'
+    }
 DATABASES['default']['CLIENT'] = client
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -133,7 +128,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/

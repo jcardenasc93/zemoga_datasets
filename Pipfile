@@ -9,6 +9,7 @@ django = "==3.0"
 dnspython = "*"
 
 [dev-packages]
+yapf = "*"
 
 [requires]
 python_version = "3.8"
