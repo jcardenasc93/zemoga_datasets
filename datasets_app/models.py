@@ -66,19 +66,14 @@ class Column(AppBaseModel):
         db_table = 'column'
 
 
-class DatasetFiles(models.Model):
-    """ DatasetFile model definiton """
+class Dataset(AppBaseModel):
+    """ Datasets model definition """
+    _id = models.ObjectIdField()
+    name = models.CharField(max_length=50, db_column='name')
     namespaces_file = models.FileField()
     datapoints_file = models.FileField()
     columns_file = models.FileField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        abstract = True
-
-
-class Dataset(AppBaseModel):
-    """ Datasets model definition """
-    _id = models.ObjectIdField()
-    name = models.CharField(max_length=50, db_column='name')
-    datasets = models.EmbeddedField(model_container=DatasetFiles)
+        db_table = 'datasets'

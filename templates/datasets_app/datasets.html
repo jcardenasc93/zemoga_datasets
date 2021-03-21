@@ -1,0 +1,24 @@
+<html>
+  <h2>Datasets</h2>
+  {% if datasets %}
+    <p>Please select the dataset to use</p>
+    <form action="" method="POST">
+      {% csrf_token %}
+      <select name="dataset_id">
+        <option  value="" selected="selected">---SELECT---</option>
+        {% for dataset in datasets %}
+        <option value="{{dataset.pk}}">{{dataset.name}} -- {{dataset.created_at}}</option>
+        {% endfor %}
+      </select>
+      <input type="submit" value="Select">
+    </form>
+  {% endif %}
+  <h3>Create dataset</h3>
+  <p>Please provided the required files for each dataset below:</p>
+  <br>
+  <form enctype="multipart/form-data" action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p  }}
+    <input type="submit" value="Submit">
+  </from>
+</html>
