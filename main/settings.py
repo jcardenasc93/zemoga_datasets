@@ -79,12 +79,13 @@ DATABASES = {'default': {'ENGINE': 'djongo', 'NAME': os.getenv('DB_NAME')}}
 # Set connection mongo according to environment variables
 DB_USER = os.getenv('DB_USER')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
+DB_NAME = os.getenv('DB_NAME')
 if os.getenv('ATLAS_HOST'):
     # Atlas DB connection type
     # For more info check https://www.mongodb.com/cloud/atlas
     client = {
         'host':
-            f"mongodb+srv://{DB_USER}:{DB_PASSWORD}@{os.getenv('ATLAS_HOST')}/{os.getenv('DB_NAME')}"
+            f"mongodb+srv://{DB_USER}:{DB_PASSWORD}@{os.getenv('ATLAS_HOST')}/{DB_NAME}"
     }
 else:
     # Custom mongo instance/cluster connection
@@ -93,7 +94,7 @@ else:
         'port': os.getenv('DB_PORT'),
         'username': DB_USER,
         'password': DB_PASSWORD,
-        'authSource': os.getenv('DB_NAME'),
+        'authSource': DB_NAME,
         'authMechanism': 'SCRAM-SHA-1'
     }
 DATABASES['default']['CLIENT'] = client

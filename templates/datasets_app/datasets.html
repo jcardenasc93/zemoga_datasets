@@ -2,12 +2,12 @@
   <h2>Datasets</h2>
   {% if datasets %}
     <p>Please select the dataset to use</p>
-    <form action="" method="POST">
+    <form action="{% url 'fetch_data' %}" method="POST">
       {% csrf_token %}
       <select name="dataset_id">
         <option  value="" selected="selected">---SELECT---</option>
         {% for dataset in datasets %}
-        <option value="{{dataset.pk}}">{{dataset.name}} -- {{dataset.created_at}}</option>
+        <option value="{{dataset.dataset_id}}">{{dataset.name}} -- {{dataset.created_at}}</option>
         {% endfor %}
       </select>
       <input type="submit" value="Select">

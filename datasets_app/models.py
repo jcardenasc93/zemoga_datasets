@@ -1,4 +1,5 @@
 from djongo import models
+import uuid
 
 
 class AppBaseModel(models.Model):
@@ -11,6 +12,7 @@ class AppBaseModel(models.Model):
 class Namespace(AppBaseModel):
     """ Namespace model definition """
     _id = models.ObjectIdField()
+    dataset_id = models.CharField(max_length=150, db_column='dataset_id')
     namespace_id = models.CharField(max_length=150, db_column='namespace_id')
     namespace_option_name = models.CharField(max_length=150,
                                              db_column='namespace_option_name')
@@ -24,6 +26,7 @@ class Namespace(AppBaseModel):
 class DataPoint(AppBaseModel):
     """ Datapoint model definiton """
     _id = models.ObjectIdField()
+    dataset_id = models.CharField(max_length=150, db_column='dataset_id')
     data_point_id = models.CharField(max_length=150, db_column='data_point_id')
     data_point_name = models.CharField(max_length=150,
                                        db_column='data_point_name')
@@ -50,6 +53,7 @@ class DataPoint(AppBaseModel):
 class Column(AppBaseModel):
     """ Column model definition """
     _id = models.ObjectIdField()
+    dataset_id = models.CharField(max_length=150, db_column='dataset_id')
     column_id = models.CharField(max_length=150, db_column='column_id')
     namespace_id = models.UUIDField(db_column='namespace_id')
     dataset_database_name = models.CharField(max_length=255,
@@ -68,7 +72,7 @@ class Column(AppBaseModel):
 
 class Dataset(AppBaseModel):
     """ Datasets model definition """
-    _id = models.ObjectIdField()
+    dataset_id = models.UUIDField(default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=50, db_column='name')
     namespaces_file = models.FileField()
     datapoints_file = models.FileField()
