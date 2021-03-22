@@ -17,7 +17,6 @@ class JSONFileBuilder:
         Args:
             data_points (list): QuerySet list for DataPoint objects
         """
-        print(data_points)
         self.data_points = []
         for data_point in data_points:
             data_point_info = {
@@ -47,7 +46,6 @@ class JSONFileBuilder:
                 }
             }
             self.data_points.append(data_point_info)
-        print("found {} datapoints".format(len(self.data_points)))
 
     def build_structure(self):
         """ Method that map all the required data in the desire

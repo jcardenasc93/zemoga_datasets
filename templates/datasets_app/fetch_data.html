@@ -1,5 +1,8 @@
 <html>
   <h2>Datasets</h2>
+    <form action="{% url 'datasets' %}" method="GET">
+      <input type="submit" value="Go back">
+    </form>
     <p>Please select your filter criteria to retrieve datapoint info</p>
     <!--NAMESPACE SELECTION-->
     <form action="{% url 'fetch_data' %}" method="POST">
@@ -82,5 +85,8 @@
     </from>
   {% else %}
     <p>No datapoint has been found</p>
+    <form action="{% url 'datasets' %}" method="GET">
+      <input type="submit" value="Clear selected">
+    </form>
   {% endif %}
 </html>

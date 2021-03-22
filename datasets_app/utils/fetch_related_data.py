@@ -23,6 +23,10 @@ class ContextMemory:
                 if not self._context.get(key) and new_context.get(key):
                     self._context[key] = new_context.get(key)
 
+    def clear_context(self):
+        """ Clears context """
+        self._context = {}
+
 
 class ContextBuilder:
     """ This class is used any time a user makes a selection related
@@ -50,10 +54,12 @@ class ContextBuilder:
         dataset_datapoints = None
 
         # Query options based on user selections
+        if not dataset_id:
+            # Retrieves dataset id from Context memory
+            dataset_id = context_memory['dataset_id']
         dataset_namespaces = Namespace.objects.filter(
             dataset_id=dataset_id) if dataset_id else None
         if namespace_id:
-            dataset_id = context_memory.get('dataset_id')
             namespace = Namespace.objects.get(namespace_id=namespace_id,
                                               dataset_id=dataset_id)
             column_query = Column.objects.filter(namespace_id=namespace_id,
@@ -80,7 +86,8 @@ class ContextBuilder:
                                       dataset_id=dataset_id).values_list(
                                           'data_point_id', flat=True))
             dataset_datapoints = set(
-                DataPoint.objects.filter(data_point_id__in=dataset_datapoints))
+                DataPoint.objects.filter(data_point_id__in=dataset_datapoints,
+                                         dataset_id=dataset_id))
 
         context = {
             # Options

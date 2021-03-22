@@ -26,6 +26,19 @@ class DataClenaer:
         # Checks if sepparator is ';'
         return row[0].split(';')
 
+    def find_duplicates(self):
+        """ Method to find duplicated data in dataframe """
+        duplicated = self.df[self.df.duplicated()]
+        # Get duplicated csv indexes
+        self.duplicated_rows = list(map(lambda i: i + 2, duplicated.index))
+        # Removes duplicates
+        self.df.drop(duplicated.index)
+
+    def look_for_dirty(self):
+        """ This method looks for anomalies in the dataframe """
+        self.anomalies = None
+        pass
+
     def fix_data_frame(self, dataset_id):
         """ This method lookups for no matching rows with schema """
         with open(self.csv_file_path, encoding='utf-8-sig') as csv_file:
@@ -60,20 +73,37 @@ class DataClenaer:
         data = self.df.to_dict('records')
         MongoConnector.insert_data_to_collection(collection, data)
 
+    def get_dirty_data(self):
+        """ This method retrieves csv indexes with anomalies """
+        dirty_data = {
+            "duplicated": self.duplicated_rows,
+            "invalid_schema": self.no_matching_schema
+            # Adds here more identified dirty data
+            # "anomalies": self.anomalies
+        }
+        return dirty_data
+
 
 class CleanDataset:
     """ This class holds all the clean data for a dataset """
 
-    def __init__(self, dataset_id, namespaces_path, columns_path, datapoints_path):
+    def __init__(self, dataset_id, namespaces_path, columns_path,
+                 datapoints_path):
         self.dataset_id = dataset_id
         self.namespaces = DataClenaer(namespaces_path)
         self.columns = DataClenaer(columns_path)
         self.datapoints = DataClenaer(datapoints_path)
+        self.cleaned_data = [self.namespaces, self.columns, self.datapoints]
+        # Debugs data
+        self._debug_data()
 
+    def _debug_data(self):
+        """ Looks for anomalies """
         # Adjust data
-        self.namespaces.fix_data_frame(self.dataset_id)
-        self.columns.fix_data_frame(self.dataset_id)
-        self.datapoints.fix_data_frame(self.dataset_id)
+        for data in self.cleaned_data:
+            data.fix_data_frame(self.dataset_id)
+            data.find_duplicates()
+            # data.look_for_dirty()
 
     def load_data(self):
         """ This method load dataframes to mongoDB collections """
@@ -81,3 +111,10 @@ class CleanDataset:
         self.columns.upload_dataframe(Column._meta.db_table)
         self.datapoints.upload_dataframe(DataPoint._meta.db_table)
 
+    def retrieve_found_anomalies(self):
+        """ Looks for found anomalies in the datasets """
+        return {
+            "namespaces_anomalies": self.namespaces.get_dirty_data(),
+            "columns_anomalies": self.columns.get_dirty_data(),
+            "datapoints_anomalies": self.datapoints.get_dirty_data()
+        }
