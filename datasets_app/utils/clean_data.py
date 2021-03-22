@@ -28,7 +28,7 @@ class DataClenaer:
 
     def fix_data_frame(self, dataset_id):
         """ This method lookups for no matching rows with schema """
-        with open(self.csv_file_path) as csv_file:
+        with open(self.csv_file_path, encoding='utf-8-sig') as csv_file:
             rows = csv.reader(csv_file)
             headers = next(rows)
             if len(headers) == 1:

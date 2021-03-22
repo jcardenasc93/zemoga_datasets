@@ -1,0 +1,86 @@
+<html>
+  <h2>Datasets</h2>
+    <p>Please select your filter criteria to retrieve datapoint info</p>
+    <!--NAMESPACE SELECTION-->
+    <form action="{% url 'fetch_data' %}" method="POST">
+      {% csrf_token %}
+      <p>Select the Namespace</p>
+      <select name="namespace_id">
+        {% if namespace %}
+        <option  value="namespace.namespace_id" selected="selected">{{namespace.namespace_option_name}}</option>
+        {% else %}
+          <option  value="" selected="selected">---SELECT---</option>
+        {% endif %}
+        {% for namespace in namespaces %}
+        <option value="{{namespace.namespace_id}}">{{namespace.namespace_option_name}}</option>
+        {% endfor %}
+      </select>
+      <input type="submit" value="Select">
+    </form>
+
+    <!--DATABASE SELECTION-->
+    <form action="{% url 'fetch_data' %}" method="POST">
+      {% csrf_token %}
+      <p>Select the database</p>
+      <select name="database_name">
+        {% if database_name %}
+          <option  value="{{database_name}}" selected="selected">{{database_name}}</option>
+        {% else %}
+          <option  value="" selected="selected">---SELECT---</option>
+        {% endif %}
+        {% for database in databases %}
+        <option value="{{database}}">{{database}}</option>
+        {% endfor %}
+      </select>
+      <input type="submit" value="Select">
+    </form>
+
+    <!--TABLE SELECTION-->
+    <form action="{% url 'fetch_data' %}" method="POST">
+      {% csrf_token %}
+      <p>Select the table</p>
+      <select name="table_name">
+        {% if table_name %}
+          <option  value="{{table_name}}" selected="selected">{{table_name}}</option>
+        {% else %}
+          <option  value="" selected="selected">---SELECT---</option>
+        {% endif %}
+        {% for table in tables %}
+        <option value="{{table}}">{{table}}</option>
+        {% endfor %}
+      </select>
+      <input type="submit" value="Select">
+    </form>
+
+    <!--COLUMN SELECTION-->
+    <form action="{% url 'fetch_data' %}" method="POST">
+      {% csrf_token %}
+      <p>Select the column</p>
+      <select name="column_name">
+        {% if column_name %}
+          <option  value="{{column_name}}" selected="selected">{{column_name}}</option>
+        {% else %}
+          <option  value="" selected="selected">---SELECT---</option>
+        {% endif %}
+        {% for column in columns %}
+        <option value="{{column}}">{{column}}</option>
+        {% endfor %}
+      </select>
+      <input type="submit" value="Select">
+    </form>
+
+  <!--RESULT-->
+  <h3>Matching data</h3>
+  {% if datapoints %}
+    <p>{{datapoints|length}} datapoints found</p>
+    <form action="{% url 'json_report' %}" method="POST">
+      {% csrf_token %}
+      <label for="file_name">Enter a file name: </label>
+      <input name="file_name" type="text" value="" placeholder="A file name without spaces">
+      <input name="column_name" type="hidden" value={{column_name}}>
+      <input type="submit" value="Download">
+    </from>
+  {% else %}
+    <p>No datapoint has been found</p>
+  {% endif %}
+</html>

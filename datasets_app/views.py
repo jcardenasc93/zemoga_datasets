@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
 # Models
 from datasets_app.models import Dataset, Namespace, Column, DataPoint
@@ -7,6 +8,9 @@ from datasets_app.forms import DatasetForm
 
 # utils
 from datasets_app.utils.clean_data import CleanDataset
+from datasets_app.utils.fetch_related_data import ContextBuilder, ContextMemory
+from datasets_app.utils.json_builder import JSONFileBuilder
+
 
 def datasets_view(request):
     """ This view lists and allows datasets creation """
@@ -25,18 +29,60 @@ def datasets_view(request):
             datapoints_file = dataset.datapoints_file
 
             # Creates dataframes
-            dataset_data = CleanDataset(dataset.pk, namespace_file, columns_file, datapoints_file)
+            dataset_data = CleanDataset(dataset.dataset_id, namespace_file,
+                                        columns_file, datapoints_file)
             # Upload dataframes to mongo
             dataset_data.load_data()
 
     context = {'datasets': queryset, 'form': form}
     return render(request, DATASETS_TEMPLATE, context)
 
-def fetch_datasets(request):
-    """ This view process the files content and match
-    the info of the selected dataset
-    """
-    if request.method == 'POST':
-        # Retrieves the dataset files locations from dataset info
-        dataset = Dataset.objects.get(dataset_id=request.POST.get('dataset_id'))
 
+# Initialize context memory
+context_memory = ContextMemory()
+
+
+def fetch_datasets(request):
+    """ This view process the user selection across
+    namespaces, databases, tables, columns and datapoints
+    to retrieve the desired datapoint info
+    """
+    FETCH_TEMPLATE = 'datasets_app/fetch_data.html'
+    selection_history = []
+    if request.method == 'POST':
+        # Retrieves context
+        context = ContextBuilder().build_context(request,
+                                                 context_memory.context)
+        # Updates context memory
+        context_memory.context = context
+        return render(request, FETCH_TEMPLATE, context)
+    context = ContextBuilder().build_context(request)
+    return render(request, FETCH_TEMPLATE, context)
+
+
+def generate_json_file(request):
+    """ This view generate the JSON file
+    accordign with the matching datapoints
+    """
+    if request.method == "POST":
+        column_name = request.POST.get('column_name')
+        file_name = request.POST.get('file_name')
+        dataset_id = context_memory.context.get('dataset_id')
+        datapoints_ids = set(
+            Column.objects.filter(dataset_column_name=column_name,
+                                  dataset_id=dataset_id).values_list(
+                                      'data_point_id',
+                                      flat=True)) if column_name else None
+        datapoints = DataPoint.objects.filter(data_point_id__in=datapoints_ids)
+        # Initialize JSONBuilder
+        json_builder = JSONFileBuilder(context_memory.context)
+        json_builder.fill_data_points(datapoints)
+        json_builder.build_structure()
+        json_builder.create_json_file(file_name)
+        json_file, mime_type = json_builder.download_file(file_name)
+
+        # Includes file in the HTTP reponse
+        response = HttpResponse(json_file, content_type=mime_type)
+        response[
+            'Content-Disposition'] = f"attachment; filename={file_name}.json"
+        return response

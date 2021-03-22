@@ -30,9 +30,9 @@ class DataPoint(AppBaseModel):
     data_point_id = models.CharField(max_length=150, db_column='data_point_id')
     data_point_name = models.CharField(max_length=150,
                                        db_column='data_point_name')
-    data_point_name_standard_name = models.CharField(
+    data_point_standard_name = models.CharField(
         max_length=150, db_column='data_point_standard_name')
-    approved_abreviations = models.CharField(max_length=150,
+    approved_abbreviations = models.CharField(max_length=150,
                                              db_column='approved_abreviations')
     data_point_definition = models.CharField(max_length=250,
                                              db_column='data_point_definition')
@@ -55,14 +55,14 @@ class Column(AppBaseModel):
     _id = models.ObjectIdField()
     dataset_id = models.CharField(max_length=150, db_column='dataset_id')
     column_id = models.CharField(max_length=150, db_column='column_id')
-    namespace_id = models.UUIDField(db_column='namespace_id')
+    namespace_id = models.CharField(max_length=150, db_column='namespace_id')
     dataset_database_name = models.CharField(max_length=255,
                                              db_column='dataset_database_name')
     dataset_table_name = models.CharField(max_length=255,
                                           db_column='dataset_table_name')
     dataset_column_name = models.CharField(max_length=255,
                                            db_column='dataset_column_name')
-    data_point_id = models.UUIDField(db_column='data_point_id')
+    data_point_id = models.CharField(max_length=150, db_column='data_point_id')
     dataset_owner_name = models.CharField(max_length=150,
                                           db_column='dataset_owner_name')
 
@@ -72,12 +72,16 @@ class Column(AppBaseModel):
 
 class Dataset(AppBaseModel):
     """ Datasets model definition """
-    dataset_id = models.UUIDField(default=uuid.uuid4, editable=False)
+    dataset_id = models.CharField(max_length=150, editable=False, unique=True)
     name = models.CharField(max_length=50, db_column='name')
     namespaces_file = models.FileField()
     datapoints_file = models.FileField()
     columns_file = models.FileField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __init__(self):
+        super(Dataset, self).__init__()
+        self.dataset_id = str(uuid.uuid4())
 
     class Meta:
         db_table = 'datasets'
