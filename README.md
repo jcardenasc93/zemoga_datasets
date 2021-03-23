@@ -54,11 +54,11 @@ Next you can see the desired architecture that I consider that should be provisi
 
 ## Current Architecture
 
-The delivered application was deployed in the following architecture
+The delivered application was deployed in the follow architecture
 
 ![er-model](https://github.com/jcardenasc93/zemoga_datasets/blob/main/project_images/current_arch.png)
 
-This is a simple monolithic app, this component embeds the app layer and the processing layer, so the same dyno performs application layer related operations and data frame processing as well. The mongoDB cluster component was provisioned over the [Mongo Atlas](https://www.mongodb.com/) services described before in the free plan subscription.
+This is a simple monolithic app deployed in a basic free [Heroku dyno](https://www.heroku.com/dynos), this component embeds the app layer and the processing layer, so the  same dyno performs application layer related operations and data frame  processing as well. The mongoDB cluster component was provisioned over  the [Mongo Atlas](https://www.mongodb.com/) services described before in the free plan subscription.
 
 ## Tech Requirements
 
