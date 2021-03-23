@@ -2,6 +2,44 @@
 
 This project contains the develop of the tech test for Python developer
 
+## User Guide
+
+![desire-arch](https://github.com/jcardenasc93/zemoga_datasets/blob/main/project_images/user_guide0.png)
+
+This web application allows to upload the three `*.csv` files that compose the dataset. After this the user can browse through the linked data by different selectors that match with the corresponding fields until get the specific column name that requires. Finally when data points are found the user can download a `JSON` file with the data points information.
+
+### Upload dataset files
+
+The user uploads the corresponding `*.csv` files for each of the following fields: Namespaces, Column and Datapoints. To identify the uploaded dataset the form requires a name too.
+
+![desire-arch](https://github.com/jcardenasc93/zemoga_datasets/blob/main/project_images/user_guide1.png)
+
+When the dataset is successfully created the browser will ask to download a `anomalies_report.csv` file. This file contains all the detected anomalies across the files. Duplicated rows, no matching schema (Uncompleted fields), etc. This report specify the file, the line and the anomaly type found in the dataset. Even with those anomalies found the user could use the application to continue browsing the dataset to search for specific datapoints associated to a column table.
+
+![desire-arch](https://github.com/jcardenasc93/zemoga_datasets/blob/main/project_images/user_guide2.png)
+
+### Browse datasets
+
+The interface asks to the user to select a dataset to browse, when the user selects a dataset then another view is rendered, that is the _fetch_ view, where the user browse the dataset linked data specifying a namespace, database, table and finally a column to lookup for related datapoints.
+
+![desire-arch](https://github.com/jcardenasc93/zemoga_datasets/blob/main/project_images/user_guide4.png)
+
+* The field options are filtered based on the previous user selection
+
+  ![desire-arch](https://github.com/jcardenasc93/zemoga_datasets/blob/main/project_images/user_guide5.png)
+
+  ![desire-arch](https://github.com/jcardenasc93/zemoga_datasets/blob/main/project_images/user_guide6.png)
+
+### Download report
+
+Finally when the user selections match with a datapoint the application show the number of datapoints found and ask for a file name (without spaces) to create the datapoints report in an specific `JSON` structure. Once the application creates the file the browser will download it
+
+![desire-arch](https://github.com/jcardenasc93/zemoga_datasets/blob/main/project_images/user_guide8.png)
+
+![desire-arch](https://github.com/jcardenasc93/zemoga_datasets/blob/main/project_images/user_guide9.png)
+
+
+
 ## Desired Architecture
 
 Next you can see the desired architecture that I consider that would be provisioned in AWS Cloud services. Below you find the architecture components description
