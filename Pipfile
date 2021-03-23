@@ -8,6 +8,9 @@ djongo = "*"
 django = "==3.0"
 dnspython = "*"
 pandas = "*"
+gunicorn = "*"
+django-heroku = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 yapf = "*"
