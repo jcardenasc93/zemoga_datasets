@@ -54,7 +54,7 @@ Next you can see the desired architecture that I consider that would be provisio
 
 ## Current Architecture
 
-The delivered application was deployed in the follow architecture
+The delivered application was deployed in the following architecture
 
 ![er-model](https://github.com/jcardenasc93/zemoga_datasets/blob/main/project_images/current_arch.png)
 
