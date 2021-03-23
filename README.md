@@ -6,7 +6,7 @@ This project contains the develop of the tech test for Python developer
 
 Next you can see the desired architecture that I consider that would be provisioned in AWS Cloud services. Below you find the architecture components description
 
-![er-model](https://github.com/jcardenasc93/orders-ws-beitech/blob/main/images/ER_model.png)
+![desire-arch](https://github.com/jcardenasc93/zemoga_datasets/blob/main/project_images/desired_arch.png)
 
 1. **AWS Fargate (App Layer):** This component handles the web application layer deployed over AWS Fargate service, this is ideal for the web application layer because is a low weight and low processing app so a deploy based in containers fits with the performance requirements. The app is a [django](https://www.djangoproject.com/) based web app with additional component to handle batch tasks like file uploading, this component is [Celery](https://docs.celeryproject.org/en/stable/index.html) a reliable distributed system to process queue tasks in short time
 2. **Mongo Cluster:** The mongoDB cluster allows to persist the data coming from `*.csv` files, in order to retrieve linked data with the specified relationships. This service ([Mongo Atlas]((https://www.mongodb.com/))) is great choice because allows cluster deployments with different cloud services vendors.
@@ -18,7 +18,7 @@ Next you can see the desired architecture that I consider that would be provisio
 
 The delivered application was deployed in the follow architecture
 
-![er-model](https://github.com/jcardenasc93/orders-ws-beitech/blob/main/images/ER_model.png)
+![er-model](https://github.com/jcardenasc93/zemoga_datasets/blob/main/project_images/current_arch.png)
 
 This is a simple monolithic app deployed in a basic free [Heroku dyno](https://www.heroku.com/dynos), this component embeds the app layer and the processing layer, so the same dyno performs application layer related operations and data frame processing as well. The mongoDB cluster component was provisioned over the [Mongo Atlas](https://www.mongodb.com/) services described before in the free plan subscription.
 
