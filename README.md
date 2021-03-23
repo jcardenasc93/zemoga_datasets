@@ -1,6 +1,6 @@
 # Zemoga Big Data project
 
-This project contains the develop of the tech test for Python developer
+This project contains the development process of the tech test for Python developer
 
 ## User Guide
 
