@@ -20,7 +20,7 @@ def datasets_view(request):
     """ This view lists and allows datasets creation """
     DATASETS_TEMPLATE = 'datasets_app/datasets.html'
     # Define queryset to retrieve all existing datasets
-    queryset = Dataset.objects.mongo_find()
+    queryset = Dataset.objects.all()
     form = DatasetForm()
     context_memory.clear_context()
 
