@@ -20,7 +20,7 @@ When the dataset is successfully created the browser will ask to download a `ano
 
 ### Browse datasets
 
-The interface asks to the user to select a dataset to browse, when the user selects a dataset then another view is rendered, that is the _fetch_ view, where the user browse the dataset linked data specifying a namespace, database, table and finally a column to lookup for related datapoints.
+The interface asks the user to select a dataset to browse, when the user selects a dataset then another view is rendered, that is the _fetch_ view, where the user browse the dataset linked data specifying a namespace, database, table and finally a column to lookup for related datapoints.
 
 ![desire-arch](https://github.com/jcardenasc93/zemoga_datasets/blob/main/project_images/user_guide4.png)
 
@@ -42,7 +42,7 @@ Finally when the user selections match with a datapoint the application show the
 
 ## Desired Architecture
 
-Next you can see the desired architecture that I consider that would be provisioned in AWS Cloud services. Below you find the architecture components description
+Next you can see the desired architecture that I consider that should be provisioned in AWS Cloud services. Below you find the architecture components description
 
 ![desire-arch](https://github.com/jcardenasc93/zemoga_datasets/blob/main/project_images/desired_arch.png)
 
@@ -58,7 +58,7 @@ The delivered application was deployed in the following architecture
 
 ![er-model](https://github.com/jcardenasc93/zemoga_datasets/blob/main/project_images/current_arch.png)
 
-This is a simple monolithic app deployed in a basic free [Heroku dyno](https://www.heroku.com/dynos), this component embeds the app layer and the processing layer, so the same dyno performs application layer related operations and data frame processing as well. The mongoDB cluster component was provisioned over the [Mongo Atlas](https://www.mongodb.com/) services described before in the free plan subscription.
+This is a simple monolithic app, this component embeds the app layer and the processing layer, so the same dyno performs application layer related operations and data frame processing as well. The mongoDB cluster component was provisioned over the [Mongo Atlas](https://www.mongodb.com/) services described before in the free plan subscription.
 
 ## Tech Requirements
 
