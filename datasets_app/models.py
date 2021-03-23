@@ -70,7 +70,7 @@ class Column(AppBaseModel):
         db_table = 'column'
 
 
-class Dataset(AppBaseModel):
+class Dataset(models.Model):
     """ Datasets model definition """
     dataset_id = models.CharField(max_length=150, editable=False, unique=True)
     name = models.CharField(max_length=50, db_column='name')
@@ -78,6 +78,8 @@ class Dataset(AppBaseModel):
     datapoints_file = models.FileField()
     columns_file = models.FileField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    objects = models.DjongoManager()
 
     def __init__(self):
         super(Dataset, self).__init__()
